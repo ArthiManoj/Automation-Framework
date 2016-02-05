@@ -13,3 +13,6 @@ Tools used to build the Automation Framework:
 - Jenkins: Continuous integeration tool which can be used to schedule tests when there is changes in the application under test
 
 - Apache SureFire: Used to generate test reports where team members can act accordingly.
+
+- Eclipse IDE for developing the Framework 
+
