@@ -20,6 +20,10 @@ Test Case 2:
 
 --> verify username after signing in 
 
+-Enter 'Java programming' in the search box
+
+-->Verify the title of the page
+
 -Click 'Log out'
 
 --> Verify if 'Log in' is present after signing out
