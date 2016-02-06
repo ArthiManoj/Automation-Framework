@@ -1,8 +1,11 @@
 package com.wikipediaTest.AutomationFramework;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import junit.framework.Assert;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -10,16 +13,17 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
 import com.wikipediaTest.AutomationFramework.Util.TestUtil;
+
 
 public class WikiMainPageTest {
 	//Initialize driver object from WebDriver class
 	public static WebDriver driver;
 	private Properties prop = null;
 	//path of the file which contains login credentials data
-	private String wikiPropertyPath = "C:\\workspace\\flexton\\AutomationFramework\\wiki.properties";
+	private String wikiPropertyPath = "C://Users//test//Automation-Framework//AutomationFramework//wiki.properties";
 	
 	//constructor
 	public WikiMainPageTest(){
@@ -31,6 +35,8 @@ public class WikiMainPageTest {
 		
 		//Initialize firefox driver
 		driver = new FirefoxDriver();
+		//If wait is set, driver will wait for specified amount of time for each findElement call
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS); 
 		//opens wikipedia web page
 		driver.get("http://www.wikipedia.com");
 		//maximizes the window
@@ -48,17 +54,18 @@ public class WikiMainPageTest {
 	}
 
 	@Test
-	public void SignInTest() {
+	public void signInTest() {
 
 		// Sign in to wikipedia account
+
 		driver.findElement(By.id("pt-login")).click();
 		driver.findElement(By.xpath("//*[@id='wpName1']")).sendKeys(prop.getProperty("username"));
-		driver.findElement(By.xpath("//*[@id='wpPassword1']")).sendKeys("2q3w4e5r");
+		driver.findElement(By.xpath("//*[@id='wpPassword1']")).sendKeys(prop.getProperty("password"));
 		driver.findElement(By.xpath("//*[@id='wpLoginAttempt']")).click();
-
+		
 		// Assert username after signing in
 		String userName = driver.findElement(By.xpath("//*[@id='pt-userpage']/a")).getText();
-		assertEquals("Assertion Failure", "ArthiBabykannan", userName);
+		assertEquals("Assertion Failure",prop.getProperty("username"), userName);
 
 		// Search java
 		driver.findElement(By.id("searchInput")).sendKeys("Java programming",Keys.ENTER);
@@ -76,11 +83,28 @@ public class WikiMainPageTest {
 		assertEquals("Assertion Failure", "Wikipedia, the free encyclopedia",pageTitle);
 
 	}
+	
+	@Test
+	public void inValidUserTest(){
+		//Sign in to wikipedia account with invalid password
+		driver.findElement(By.id("pt-login")).click();
+		driver.findElement(By.xpath("//*[@id='wpName1']")).clear();
+		driver.findElement(By.xpath("//*[@id='wpName1']")).sendKeys(prop.getProperty("username"));
+		driver.findElement(By.xpath("//*[@id='wpPassword1']")).sendKeys(prop.getProperty("invalidPassword"));
+		driver.findElement(By.xpath("//*[@id='wpLoginAttempt']")).click();
+		WebElement element = driver.findElement(By.xpath("//*[@id='userloginForm']/form/div[1]"));
+		String text = element.getText();
+		System.out.println(text);
+		//Assert error message
+		Assert.assertEquals("Login error"+"\n" +"Incorrect password entered. Please try again.", text);
+		
+	}
 
 	@AfterClass
 	public static void tearDown() {
 		//close the driver object
-		driver.close();
+		//driver.close();
 	}
-
+	
+	
 }
