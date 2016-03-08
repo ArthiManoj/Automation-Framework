@@ -28,7 +28,7 @@ Test Case 3:
 
     -Click 'Log in' in upper right corner
     
-    -Enter invalid username
+    -Enter valid username
     
     -Enter invalid password
     
