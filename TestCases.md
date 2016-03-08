@@ -24,4 +24,15 @@ Test Case 2:
     -Click 'Main page' => Verify the title of the page
     
     
+Test Case 3:
+
+    -Click 'Log in' in upper right corner
+    
+    -Enter invalid username
+    
+    -Enter invalid password
+    
+    -Assert error message
+    
+    
 
