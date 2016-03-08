@@ -103,7 +103,7 @@ public class WikiMainPageTest {
 	@AfterClass
 	public static void tearDown() {
 		//close the driver object
-		//driver.close();
+		driver.close();
 	}
 	
 	
